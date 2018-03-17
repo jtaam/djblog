@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Welcome to Django Blog{% endblock %}
+{% block stylesheet %}{% endblock %}
+{% block content %}
+<h4 class="container">Category: {{cat.name}}</h4>
+<br>
+{% for p in post %}
+<article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+    <figure>
+        <a href="{% url 'single_post' id=p.id %}"><img src="{{p.image.url}}" alt="Image" class="img-responsive"></a>
+    </figure>
+    <span class="fh5co-meta"><a href="{% url 'topic' name=p.category.name %}">{{p.category}}</a></span>
+    <h2 class="fh5co-article-title"><a href="{% url 'single_post' id=p.id %}">{{p.title}}</a></h2>
+    <span class="fh5co-meta fh5co-date">{{p.posted_on}}</span>
+</article>
+{% endfor %}
+
+<!--<div class="clearfix visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-lg-block visible-md-block visible-sm-block visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-lg-block visible-md-block visible-sm-block visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-lg-block visible-md-block visible-sm-block visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-xs-block"></div>-->
+
+<!--<div class="clearfix visible-xs-block"></div>-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="pagination">
+            <span class="step-links">
+                {% if post.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ contacts.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ post.number }} of {{ post.paginator.num_pages }}.
+                </span>
+
+                {% if post.has_next %}
+                    <a href="?page={{ post.next_page_number }}">next</a>
+                    <a href="?page={{ post.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}{% endblock %}
+
+
