@@ -5,7 +5,7 @@ class createForm(forms.ModelForm):
     class Meta:
         model = article
         fields = [
-            'article_author',
+            # 'article_author',
             'title',
             'body',
             'image',
