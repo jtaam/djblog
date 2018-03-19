@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from django.contrib.messages import constants as messages
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -123,3 +123,11 @@ STATIC_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT=os.path.join(os.path.dirname(BASE_DIR),"media")
+
+MESSAGE_TAGS = {
+    messages.INFO: 'alert alert-info',
+    messages.SUCCESS:'alert alert-success',
+    messages.WARNING:'alert alert-warning',
+    messages.DEBUG:'alert alert-info',
+    messages.ERROR:'alert alert-danger',
+}

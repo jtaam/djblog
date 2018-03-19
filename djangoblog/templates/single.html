@@ -22,10 +22,10 @@
 {% endblock %}
 {% block content %}
     {% if post.id > first.id %}
-        <a href="{% url 'single_post' id=post.id|add:'-1' %}" class="fh5co-post-prev"><span><i class="icon-chevron-left"></i> Prev</span></a>
+        <a href="{% url 'blog:single_post' id=post.id|add:'-1' %}" class="fh5co-post-prev"><span><i class="icon-chevron-left"></i> Prev</span></a>
     {% endif %}
     {% if post.id < last.id %}
-        <a href="{% url 'single_post' id=post.id|add:'+1' %}" class="fh5co-post-next"><span>Next <i class="icon-chevron-right"></i></span></a>
+        <a href="{% url 'blog:single_post' id=post.id|add:'+1' %}" class="fh5co-post-next"><span>Next <i class="icon-chevron-right"></i></span></a>
     {% endif %}
 
 
@@ -36,7 +36,7 @@
 				<figure class="animate-box">
 					<img src="{{ post.image.url }}" alt="Image" class="img-responsive">
 				</figure>
-				<span class="fh5co-meta animate-box"><a href="{% url 'topic' name=post.category.name %}">{{post.category.name}}</a></span>
+				<span class="fh5co-meta animate-box"><a href="{% url 'blog:topic' name=post.category.name %}">{{post.category.name}}</a></span>
 				<h2 class="fh5co-article-title animate-box">{{post.title}}</h2>
 				<span class="fh5co-meta fh5co-date animate-box">{{post.posted_on}}</span>
 
@@ -55,14 +55,39 @@
                 {% for r in related %}
                 <div class="col-md-3">
                     <figure class="animate-box">
-                        <a href="{% url 'single_post' id=r.id %}"><img src="{{ r.image.url }}" alt="Image" class="img-responsive"></a>
-                        <a href="{% url 'single_post' id=r.id %}"><h2 class="fh5co-article-title animate-box">{{r.title}}</h2></a>
+                        <a href="{% url 'blog:single_post' id=r.id %}"><img src="{{ r.image.url }}" alt="Image" class="img-responsive"></a>
+                        <a href="{% url 'blog:single_post' id=r.id %}"><h2 class="fh5co-article-title animate-box">{{r.title}}</h2></a>
                         <p>{{r.body|truncatewords:15}}</p>
                     </figure>
                 </div>
                 {% endfor %}
             </div>
        </div>
+        <!--comment-->
+        <h3 class="well">Comments</h3>
+        <div class="single_post_comment">
+            {% for comment in comment %}
+                <div class="single_comment">
+                    <h4>{{comment.name}}</h4>
+                    <h5>{{comment.email}}</h5>
+                    <p>{{comment.post_comment}}</p>
+                </div>
+                {% empty %}
+                <h3>Sorry, no comment found!</h3>
+            {% endfor %}
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Comments</h3>
+          </div>
+          <div class="panel-body">
+              <form action="" method="POST">
+                  {% csrf_token %}
+                  {{form.as_p}}
+                  <button class="btn btn-primary">Comment</button>
+              </form>
+          </div>
+        </div>
 	</div>
 {% endblock %}
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block title %}All Topics{% endblock %}
+
+{% block stylesheet %}{% endblock %}
+
+{% block profile %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff or request.user.is_superuser %}
+            <a href="{% url 'blog:createTopic' %}" class="btn btn-primary pull pull-right">Add New Category</a>
+        {% endif %}
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td><b>Topics</b></td>
+                <td><b>Posted On</b></td>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                            <td><b>Action</b></td>
+                        {% endif %}
+                    {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in topic%}
+                <tr>
+                    <td><a href="{% url 'blog:topic' name=t.name %}" target="_blank">{{t.name}}</a></td>
+                    <td>{{t.posted_on}}</td>
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                                <td><a href="" class="btn btn-danger" onclick="return confirm('Confirm delete post!')">Delete</a> || <a href="" class="btn btn-info">Edit</a></td>
+                            {% endif %}
+                        {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}{% endblock %}

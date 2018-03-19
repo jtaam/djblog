@@ -23,21 +23,30 @@
 
 {% block content %}
 <div class="container">
+    <div class="row">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
     <a href="{% url 'create' %}" class="btn btn-primary pull pull-right">Add New Article</a>
     <table class="table table-striped">
         <thead>
             <tr>
-                <td>Title</td>
-                <td>Posted On</td>
-                <td>Action</td>
+                <td><b>Title</b></td>
+                <td><b>Posted On</b></td>
+                <td><b>Action</b></td>
             </tr>
         </thead>
         <tbody>
             {% for p in post%}
                 <tr>
-                    <td>{{p.title}}</td>
+                    <td><a href="{% url 'single_post' id=p.id %}" target="_blank">{{p.title}}</a></td>
                     <td>{{p.posted_on}}</td>
-                    <td><a href="" class="btn btn-danger">Delete</a> || <a href="" class="btn btn-info">Edit</a></td>
+                    <td><a href="{% url 'delete' pid=p.id %}" class="btn btn-danger" onclick="return confirm('Confirm delete post!')">Delete</a> || <a href="{% url 'update' pid=p.id %}" class="btn btn-info">Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
